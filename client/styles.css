@@ -1,0 +1,120 @@
+/* צבעים בהשראת AI: סגול, כחול, טורקיז */
+:root {
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --text: #f1f5f9;
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --secondary: #14b8a6;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.app {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--accent);
+}
+header p {
+  color: var(--secondary);
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  margin-bottom: 20px;
+}
+
+form {
+  display: grid;
+  gap: 15px;
+}
+
+label, legend {
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 8px;
+  background: #334155;
+  color: var(--text);
+}
+
+button {
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover {
+  background: var(--accent-light);
+}
+
+/* אזור טעינה */
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+.loading .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--secondary);
+  animation: bounce 1.2s infinite ease-in-out;
+}
+.loading .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loading .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+.report {
+  background: #0f172a;
+  padding: 20px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  line-height: 1.8;
+
+  /* עיצוב הפונט */
+  font-family: "Assistant", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.1rem;   /* גודל טקסט – אפשר לשחק עם זה (1rem = 16px בערך) */
+  color: #e2e8f0;      /* צבע טקסט */
+}
+

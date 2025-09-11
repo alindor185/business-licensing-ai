@@ -1,0 +1,17 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Environment (secrets)
+.env
+.env.*
+
+# Build/OS noise
+.DS_Store
+Thumbs.db
+
+# Data artifacts (we keep the folder with a .gitkeep)
+data/*.json
+data/*.pdf
+!data/.gitkeep
