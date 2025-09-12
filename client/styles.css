@@ -80,7 +80,6 @@ button:hover {
   background: var(--accent-light);
 }
 
-/* אזור טעינה */
 .loading {
   display: flex;
   align-items: center;
@@ -112,9 +111,8 @@ button:hover {
   white-space: pre-wrap;
   line-height: 1.8;
 
-  /* עיצוב הפונט */
   font-family: "Assistant", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 1.1rem;   /* גודל טקסט – אפשר לשחק עם זה (1rem = 16px בערך) */
-  color: #e2e8f0;      /* צבע טקסט */
+  font-size: 1.1rem;
+  color: #e2e8f0;
 }
 
