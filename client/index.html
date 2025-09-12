@@ -15,7 +15,7 @@
     <main>
       <form id="form" class="card">
         <label>שם העסק
-          <input name="name" required />
+          <input type="text" name="name" required />
         </label>
         <label>גודל במ"ר
           <input type="number" name="sizeSqm" required />
@@ -27,7 +27,9 @@
           <legend>מאפיינים</legend>
           <label><input type="checkbox" name="features" value="gas"> שימוש בגז</label>
           <label><input type="checkbox" name="features" value="meat"> הגשת בשר</label>
-          <label><input type="checkbox" name="features" value="delivery"> משלוחים</label>
+          <label><input type="checkbox" name="features" value="delivery"> שירות משלוחים</label>
+            <label><input type="checkbox" name="features" value="alcohol"> הגשת אלכוהול</label>
+
         </fieldset>
         <button type="submit">צור דוח</button>
       </form>
