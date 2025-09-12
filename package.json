@@ -1,17 +1,17 @@
 {
   "name": "rest_rules",
   "version": "1.0.0",
-  "main": "server.js",
+  "description": "Restaurant licensing assessment tool",
+  "main": "server/server.js",
   "scripts": {
     "process": "node scripts/processRules.js",
-    "dev": "node server.js",
-    "start": "node server.js",
+    "dev": "node server/server.js",
+    "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "Restaurant licensing assessment tool",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",

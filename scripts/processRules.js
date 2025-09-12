@@ -30,7 +30,6 @@ function detectAppliesIf(line) {
   const appliesIf = { size: [], seats: [], tags: [] };
   const normalized = line.replace(/\s+/g, ' ').replace(/מ\s*ר/g, 'מ"ר').trim();
 
-  // Area
   const sizeMatch = normalized.match(/(\d+)\s?מ"ר/);
   if (sizeMatch) {
     const value = parseInt(sizeMatch[1], 10);
@@ -43,7 +42,6 @@ function detectAppliesIf(line) {
     }
   }
 
-  // Seats / occupancy
   const seatsMatch = normalized.match(/(\d+)\s?(?:מקומות|ישיבה|אנשים|איש|קהל)/);
   if (seatsMatch) {
     const value = parseInt(seatsMatch[1], 10);
@@ -56,7 +54,6 @@ function detectAppliesIf(line) {
     }
   }
 
-  // Tags
   if (/אלכוהול|בר|משקאות משכרים/.test(normalized)) appliesIf.tags.push("alcohol");
   if (/גז/.test(normalized)) appliesIf.tags.push("gas");
   if (/בשר/.test(normalized)) appliesIf.tags.push("meat");
@@ -66,7 +63,6 @@ function detectAppliesIf(line) {
   return appliesIf;
 }
 
-// Keep only relevant rules
 function isRelevant(line) {
   return (
     /(\d+)\s?(?:מ"ר|מקומות|ישיבה|אנשים|איש|קהל)/.test(line) ||
@@ -104,9 +100,9 @@ async function main() {
 
     const output = { updatedAt: new Date().toISOString(), rules };
     fs.writeFileSync(OUT_PATH, JSON.stringify(output, null, 2), 'utf8');
-    console.log(`✅ rules.json created with ${rules.length} focused rules`);
+    console.log(`rules.json created with ${rules.length} focused rules`);
   } catch (err) {
-    console.error('❌ Error processing PDF:', err.message);
+    console.error('Error processing PDF:', err.message);
   }
 }
 

@@ -1,17 +1,11 @@
-// --- DOM elements ---
-// Form inputs, result container, report output area, and optional loader
 const form = document.getElementById("form");
 const result = document.getElementById("result");
 const reportEl = document.getElementById("report");
 const loadingEl = document.getElementById("loading");
 
-// --- Typewriter effect ---
-// Utility that simulates typing by printing characters one by one.
-// Works seamlessly for both <textarea> (value) and <div>/<pre> (innerHTML).
+// Typing effect for displaying the report smoothly
 function typeWriter(text, el, speed = 20) {
   const isTextArea = el.tagName === "TEXTAREA";
-
-  // reset content before typing starts
   if (isTextArea) el.value = "";
   else el.innerHTML = "";
 
@@ -22,22 +16,19 @@ function typeWriter(text, el, speed = 20) {
         if (isTextArea) el.value += text.charAt(i);
         else el.innerHTML += text.charAt(i);
         i++;
-        el.scrollTop = el.scrollHeight; // keep content visible
+        el.scrollTop = el.scrollHeight;
       } else {
         clearInterval(interval);
-        resolve(); // notify caller when finished
+        resolve();
       }
     }, speed);
   });
 }
 
-// --- Form submission handler ---
-// Collects form data, sends it to the backend API, 
-// and displays the AI-generated report with typing animation.
+// Handle form submission
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // extract user input
   const fd = new FormData(form);
   const data = {
     name: fd.get("name"),
@@ -47,35 +38,30 @@ form.addEventListener("submit", async (e) => {
   };
 
   result.hidden = false;
-
-  // clear previous report
   if (reportEl.tagName === "TEXTAREA") reportEl.value = "";
   else reportEl.innerHTML = "";
-
-  // show loader if available
   loadingEl.hidden = false;
 
   try {
-    // call backend endpoint
     const res = await fetch("/api/evaluate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
 
+    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+
     const json = await res.json();
 
     if (json.report) {
       await typeWriter(json.report, reportEl, 25);
-      loadingEl.hidden = true; // hide loader after animation
     } else {
-      loadingEl.hidden = true;
-      if (reportEl.tagName === "TEXTAREA") reportEl.value = "שגיאה: לא התקבל דוח.";
-      else reportEl.textContent = "שגיאה: לא התקבל דוח.";
+      reportEl.textContent = "Error: No report received.";
     }
   } catch (err) {
+    console.error("Error while fetching report:", err);
+    reportEl.textContent = "Error: Failed to connect to server.";
+  } finally {
     loadingEl.hidden = true;
-    if (reportEl.tagName === "TEXTAREA") reportEl.value = "❌ שגיאת תקשורת עם השרת.";
-    else reportEl.textContent = "❌ שגיאת תקשורת עם השרת.";
   }
 });
