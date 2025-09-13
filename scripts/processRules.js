@@ -4,74 +4,7 @@ const pdf = require('pdf-parse');
 
 const PDF_PATH = path.join(__dirname, '..', 'data', '18-07-2022_4.2A.pdf');
 const OUT_PATH = path.join(__dirname, '..', 'data', 'rules.json');
-
-function cleanLine(line) {
-  return line.replace(/\s+/g, ' ').trim();
-}
-
-function detectCategory(line) {
-  if (/אש|כיבוי|חירום/.test(line)) return 'fire_safety';
-  if (/מים|ברז|מתזים|עשן/.test(line)) return 'fire_safety';
-  if (/תברואה|מטבח|מזון/.test(line)) return 'sanitation';
-  if (/אלכוהול|בר|משקאות משכרים/.test(line)) return 'alcohol';
-  if (/גז/.test(line)) return 'gas';
-  if (/בשר/.test(line)) return 'meat';
-  if (/משלוח/.test(line)) return 'delivery';
-  return 'general';
-}
-
-function detectPriority(line) {
-  if (/חובה|מחויב/.test(line)) return 'must';
-  if (/מומלץ|רצוי/.test(line)) return 'should';
-  return 'nice';
-}
-
-function detectAppliesIf(line) {
-  const appliesIf = { size: [], seats: [], tags: [] };
-  const normalized = line.replace(/\s+/g, ' ').replace(/מ\s*ר/g, 'מ"ר').trim();
-
-  const sizeMatch = normalized.match(/(\d+)\s?מ"ר/);
-  if (sizeMatch) {
-    const value = parseInt(sizeMatch[1], 10);
-    if (/עד|לא יעלה|לא יותר/.test(normalized)) {
-      appliesIf.size.push({ op: "<=", value });
-    } else if (/מעל|גדול מ/.test(normalized)) {
-      appliesIf.size.push({ op: ">", value });
-    } else {
-      appliesIf.size.push({ op: ">=", value });
-    }
-  }
-
-  const seatsMatch = normalized.match(/(\d+)\s?(?:מקומות|ישיבה|אנשים|איש|קהל)/);
-  if (seatsMatch) {
-    const value = parseInt(seatsMatch[1], 10);
-    if (/עד|לא יעלה|לא יותר/.test(normalized)) {
-      appliesIf.seats.push({ op: "<=", value });
-    } else if (/מעל|גדול מ/.test(normalized)) {
-      appliesIf.seats.push({ op: ">", value });
-    } else {
-      appliesIf.seats.push({ op: ">=", value });
-    }
-  }
-
-  if (/אלכוהול|בר|משקאות משכרים/.test(normalized)) appliesIf.tags.push("alcohol");
-  if (/גז/.test(normalized)) appliesIf.tags.push("gas");
-  if (/בשר/.test(normalized)) appliesIf.tags.push("meat");
-  if (/משלוח/.test(normalized)) appliesIf.tags.push("delivery");
-  if (/אירוע|כיפת השמיים/.test(normalized)) appliesIf.tags.push("outdoor");
-
-  return appliesIf;
-}
-
-function isRelevant(line) {
-  return (
-    /(\d+)\s?(?:מ"ר|מקומות|ישיבה|אנשים|איש|קהל)/.test(line) ||
-    /אלכוהול|משקאות משכרים|בר/.test(line) ||
-    /גז/.test(line) ||
-    /בשר/.test(line) ||
-    /משלוח/.test(line)
-  );
-}
+const ruleRegex = /^([34](?:\.\d+){2,3})/;
 
 async function main() {
   try {
@@ -79,30 +12,36 @@ async function main() {
     const data = await pdf(buffer);
 
     const lines = data.text
-      .replace(/\r/g, '')
-      .split('\n')
-      .map(cleanLine)
+      .replace(/\r/g, "")
+      .split("\n")
+      .map((l) => l.trim())
       .filter(Boolean);
 
-    const rules = [];
+    const rules = {};
+    let currentKey = null;
+    let currentText = "";
 
-    lines.forEach((line, i) => {
-      if (!isRelevant(line)) return;
+    for (const line of lines) {
+      const match = line.match(ruleRegex);
 
-      rules.push({
-        id: `rule-${i + 1}`,
-        description: line,
-        category: detectCategory(line),
-        appliesIf: detectAppliesIf(line),
-        priority: detectPriority(line)
-      });
-    });
+      if (match) {
+        if (currentKey) {
+          rules[currentKey] = currentText.trim();
+        }
+        currentKey = match[1];
+        currentText = line.replace(ruleRegex, "").trim();
+      } else if (currentKey) {
+        currentText += " " + line;
+      }
+    }
+    if (currentKey) {
+      rules[currentKey] = currentText.trim();
+    }
 
-    const output = { updatedAt: new Date().toISOString(), rules };
-    fs.writeFileSync(OUT_PATH, JSON.stringify(output, null, 2), 'utf8');
-    console.log(`rules.json created with ${rules.length} focused rules`);
+    fs.writeFileSync(OUT_PATH, JSON.stringify(rules, null, 2), "utf8");
+    console.log(`Extracted ${Object.keys(rules).length} rules → saved to ${OUT_PATH}`);
   } catch (err) {
-    console.error('Error processing PDF:', err.message);
+    console.error("Error processing PDF:", err.message);
   }
 }
 
