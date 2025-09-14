@@ -85,6 +85,8 @@ Convert the PDF into structured JSON:
 npm run process
 ```
 
+**Note:** Make sure to place your regulatory PDF file in the `data/` folder before running this command. The script will process the PDF and generate a `rules.json` file in the same directory.
+
 ### Run the server
 ```bash
 npm run dev
@@ -94,20 +96,25 @@ The application will be available at: http://localhost:3000
 
 ## Configuration
 
-### API Key
+### Environment Variables
 This project integrates with the OpenAI API to generate customized reports.  
-You must provide a valid API key:
+You must configure the following environment variables:
 
 1. Create a file named `.env` in the project root.
-2. Add your key to the file:
+2. Add the required variables:
 
 ```
 OPENAI_API_KEY=your_api_key_here
+PORT=3000
 ```
 
-3. Restart the server after setting the key.
+3. Restart the server after setting the variables.
 
-⚠️ If no key is provided, the system runs in **demo mode** and returns rule matches without AI explanations.
+**Notes:**
+- `OPENAI_API_KEY`: Required for AI-generated reports
+- `PORT`: Server port (optional, defaults to 3000 if not specified)
+
+⚠️ If no API key is provided, the system runs in **demo mode** and returns rule matches without AI explanations.
 
 ## API Endpoints
 
@@ -139,3 +146,5 @@ Returns all processed rules (JSON).
 - Working end-to-end system: from PDF processing → rule matching → AI report generation
 - Documented repository with clear code separation
 - Customizable rules engine that can be extended for more features or other domains
+  <img width="1091" height="649" alt="Screenshot 2025-09-14 105924" src="https://github.com/user-attachments/assets/e9f02d92-8bf7-4602-af02-0817ce19a6cb" />
+<img width="801" height="915" alt="Screenshot 2025-09-14 103924" src="https://github.com/user-attachments/assets/f669af5f-df3e-400a-85b8-a6a0a11857ec" />
