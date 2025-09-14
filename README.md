@@ -48,26 +48,27 @@ The project demonstrates **end-to-end system design**:
 ## Project Structure
 rest_rules/
 │
-├── client/ # Frontend (form + report display)
-│ ├── index.html
-│ ├── styles.css
-│ └── main.js
+├── client/                 # Frontend (form + report display)
+│   ├── index.html
+│   ├── styles.css
+│   └── main.js
 │
-├── scripts/ # Data processing scripts
-│ └── processRules.js
+├── scripts/                # Data processing scripts
+│   └── processRules.js
 │
-├── server/ # Backend services
-│ ├── server.js # Express API
-│ ├── ai.js # AI integration
-│ └── match.js # Rule matching logic
+├── server/                 # Backend services
+│   ├── server.js           # Express API
+│   ├── ai.js               # AI integration
+│   └── match.js            # Rule matching logic
 │
 ├── data/
-│ ├── 18-07-2022_4.2A.pdf # Source regulations
-│ └── rules.json # Extracted structured rules
+│   ├── 18-07-2022_4.2A.pdf # Source regulations
+│   └── rules.json          # Extracted structured rules
 │
 ├── package.json
 └── README.md
 
+---
 ---
 
 ## Installation & Setup
@@ -79,19 +80,15 @@ rest_rules/
 ### Install dependencies
 ```bash
 npm install
+
 Process regulatory data
 
 Convert the PDF into structured JSON:
-
 npm run process
-
 Run the server
 npm run dev
-
-
 The application will be available at:
 http://localhost:3000
-
 API Endpoints
 
 GET /api/rules
