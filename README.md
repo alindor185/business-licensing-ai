@@ -1,101 +1,84 @@
-Business Licensing Assessment Tool
-Overview
+# Business Licensing Assessment Tool
 
+## Overview
 This project is a proof-of-concept system designed to help business owners in Israel understand regulatory licensing requirements. It processes raw regulatory documents, matches them against business attributes, and generates clear, customized reports with the assistance of AI.
 
-The project demonstrates end-to-end system design:
+The project demonstrates **end-to-end system design**:
+- Data extraction from regulatory documents  
+- Rule structuring and filtering  
+- A digital questionnaire (frontend)  
+- A matching engine (backend)  
+- AI integration to produce human-readable reports  
 
-Data extraction from regulatory documents
+---
 
-Rule structuring and filtering
+## Features
+1. **Data Processing**
+   - Extracts rules from a PDF of business regulations.
+   - Converts rules into a structured JSON format.
+   - Supports detection of multi-line rules and rule numbers (e.g., `3.7.1`, `4.2.3.1`).
 
-A digital questionnaire (frontend)
+2. **Digital Questionnaire**
+   - Collects key business attributes:
+     - Size in square meters
+     - Number of seats
+     - Special features (e.g., use of gas, serving alcohol, delivery)
 
-A matching engine (backend)
+3. **Matching Engine**
+   - Matches user inputs against the structured rules.
+   - Filters rules by thresholds (size, occupancy) and tags (e.g., alcohol, gas).
+   - Prioritizes rules based on urgency (`must`, `should`, `nice`).
 
-AI integration to produce human-readable reports
+4. **AI-Generated Report**
+   - Uses OpenAI’s API to convert legal/technical requirements into clear, business-friendly guidance.
+   - Organizes the output into categories (business license, sanitation, fire safety, etc.).
+   - Produces personalized reports based on the business profile.
 
-Features
+---
 
-Data Processing
+## Tech Stack
+- **Frontend:** HTML, CSS, Vanilla JavaScript  
+- **Backend:** Node.js with Express  
+- **AI Integration:** OpenAI API  
+- **Data Processing:** `pdf-parse` for PDF text extraction  
+- **Storage:** JSON file for processed rules  
 
-Extracts rules from a PDF of business regulations.
+---
 
-Converts rules into a structured JSON format.
-
-Supports detection of multi-line rules and rule numbers (e.g., 3.7.1, 4.2.3.1).
-
-Digital Questionnaire
-
-Collects key business attributes:
-
-Size in square meters
-
-Number of seats
-
-Special features (e.g., use of gas, serving alcohol, delivery)
-
-Matching Engine
-
-Matches user inputs against the structured rules.
-
-Filters rules by thresholds (size, occupancy) and tags (e.g., alcohol, gas).
-
-Prioritizes rules based on urgency (must, should, nice).
-
-AI-Generated Report
-
-Uses OpenAI’s API to convert legal/technical requirements into clear, business-friendly guidance.
-
-Organizes the output into categories (business license, sanitation, fire safety, etc.).
-
-Produces personalized reports based on the business profile.
-
-Tech Stack
-
-Frontend: HTML, CSS, Vanilla JavaScript
-
-Backend: Node.js with Express
-
-AI Integration: OpenAI API
-
-Data Processing: pdf-parse for PDF text extraction
-
-Storage: JSON file for processed rules
-
-Project Structure
+## Project Structure
 rest_rules/
 │
-├── client/                # Frontend (form + report display)
-│   ├── index.html
-│   ├── styles.css
-│   └── main.js
+├── client/ # Frontend (form + report display)
+│ ├── index.html
+│ ├── styles.css
+│ └── main.js
 │
-├── scripts/               # Data processing scripts
-│   └── processRules.js
+├── scripts/ # Data processing scripts
+│ └── processRules.js
 │
-├── server/                # Backend services
-│   ├── server.js          # Express API
-│   ├── ai.js              # AI integration
-│   └── match.js           # Rule matching logic
+├── server/ # Backend services
+│ ├── server.js # Express API
+│ ├── ai.js # AI integration
+│ └── match.js # Rule matching logic
 │
 ├── data/
-│   ├── 18-07-2022_4.2A.pdf  # Source regulations
-│   └── rules.json           # Extracted structured rules
+│ ├── 18-07-2022_4.2A.pdf # Source regulations
+│ └── rules.json # Extracted structured rules
 │
 ├── package.json
 └── README.md
 
-Installation & Setup
-Prerequisites
+---
 
-Node.js (>= 18)
+## Installation & Setup
 
-npm
+### Prerequisites
+- Node.js (>= 18)
+- npm
 
-Install dependencies
+### Install dependencies
+```bash
 npm install
-
 Process regulatory data
 
 Convert the PDF into structured JSON:
