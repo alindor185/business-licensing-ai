@@ -38,9 +38,8 @@ form.addEventListener("submit", async (e) => {
   };
 
   result.hidden = false;
-  if (reportEl.tagName === "TEXTAREA") reportEl.value = "";
-  else reportEl.innerHTML = "";
-  loadingEl.hidden = false;
+  reportEl.textContent = "";
+  loadingEl.hidden = false;   
 
   try {
     const res = await fetch("/api/evaluate", {
@@ -54,14 +53,15 @@ form.addEventListener("submit", async (e) => {
     const json = await res.json();
 
     if (json.report) {
+      loadingEl.hidden = true;      
       await typeWriter(json.report, reportEl, 25);
     } else {
+      loadingEl.hidden = true;
       reportEl.textContent = "Error: No report received.";
     }
   } catch (err) {
     console.error("Error while fetching report:", err);
-    reportEl.textContent = "Error: Failed to connect to server.";
-  } finally {
     loadingEl.hidden = true;
+    reportEl.textContent = "Error: Failed to connect to server.";
   }
 });

@@ -27,20 +27,14 @@
           <legend>מאפיינים</legend>
           <label><input type="checkbox" name="features" value="gas"> שימוש בגז</label>
           <label><input type="checkbox" name="features" value="meat"> הגשת בשר</label>
-            <label><input type="checkbox" name="features" value="alcohol"> הגשת אלכוהול</label>
-
+          <label><input type="checkbox" name="features" value="alcohol"> הגשת אלכוהול</label>
         </fieldset>
         <button type="submit">צור דוח</button>
       </form>
 
       <section id="result" class="card" hidden>
         <h2>דוח מותאם</h2>
-        <div id="loading" class="loading" hidden>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <p>AI חושב עבורך...</p>
-        </div>
+        <div id="loading" class="loading" hidden>⏳ טוען...</div>
         <pre id="report" class="report"></pre>
       </section>
     </main>
