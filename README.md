@@ -92,6 +92,23 @@ npm run dev
 
 The application will be available at: http://localhost:3000
 
+## Configuration
+
+### API Key
+This project integrates with the OpenAI API to generate customized reports.  
+You must provide a valid API key:
+
+1. Create a file named `.env` in the project root.
+2. Add your key to the file:
+
+```
+OPENAI_API_KEY=your_api_key_here
+```
+
+3. Restart the server after setting the key.
+
+⚠️ If no key is provided, the system runs in **demo mode** and returns rule matches without AI explanations.
+
 ## API Endpoints
 
 ### `GET /api/rules`
